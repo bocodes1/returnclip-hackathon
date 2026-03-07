@@ -1,0 +1,12 @@
+# API Keys - DO NOT COMMIT
+ReturnClipKit/ReturnClipKit/Config/APIKeys.swift
+
+# Xcode
+*.xcuserdata
+*.xcworkspace
+DerivedData/
+build/
+.build/
+
+# macOS
+.DS_Store
