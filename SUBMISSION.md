@@ -1,243 +1,123 @@
-# ReturnClip — Hack Canada 2026 Submission
-
-## Team Information
-
-- **Team Name:** Team ReturnClip
-- **Members:** [Add team member names]
-- **Challenge:** Reactiv ClipKit Lab
+## Team Name: Team ReturnClip
+## Clip Name: ReturnClip
+## Invocation URL Pattern: returnclip.app/return/:orderId
 
 ---
 
-## Problem Framing
+## What Great Looks Like
 
-### The Pain Point
-
-Ecommerce returns cost merchants **$100+ billion annually** in fraud and processing. For furniture/home decor brands like Refined Concept, return rates hit **15-22%** on dropshipping, with each return eating **20-65%** of item value in reverse logistics.
-
-The core problem: **merchants can't verify item condition at scale.**
-
-Current returns flow:
-1. Customer emails support (5-10 min)
-2. Back-and-forth about condition (days)
-3. Manual inspection on receipt (costly)
-4. Disputes → chargebacks → lost customers
-
-### Why This Matters for Canadian Commerce
-
-- Canadian retail margins are already thin
-- Furniture/home goods returns spike post-holiday (Boxing Week aftermath)
-- Cross-border returns (US→CA) add complexity and cost
-- Chargebacks hurt small merchants disproportionately
-
-### Target Touchpoint
-
-**Post-purchase, 8 hours after delivery** — the critical window when customers decide to keep or return. This is the perfect App Clip moment: time-sensitive, focused task, no app install needed.
+Your submission is strong when it is:
+- **Specific**: one clear fan moment, one clear problem, one clear outcome
+- **Clip-shaped**: value in under 30 seconds, no heavy onboarding
+- **Business-aware**: connects to revenue (venue, online, or both)
+- **Testable**: prototype actually runs in the simulator with your URL pattern
 
 ---
 
-## Proposed Solution
+### 1. Problem Framing
 
-### ReturnClip: AI-Powered Returns Verification
+Which user moment or touchpoint are you targeting?
 
-An App Clip that verifies item condition against merchant return policy in **30 seconds**.
+- [ ] Discovery / first awareness
+- [ ] Intent / consideration
+- [ ] Purchase / conversion
+- [ ] In-person / on-site interaction
+- [x] Post-purchase / re-engagement
+- [ ] Other: ___
 
-### User Flow
+**What friction or missed opportunity are you solving for?**
 
-```
-QR Code/Push Notification (8hr post-delivery)
-    ↓
-Screen 1: Order Confirmation (2 sec)
-    ↓
-Screen 2: Return Reason (3 sec)
-    ↓
-Screen 3: Photo Capture with Demo Video (10 sec)
-    ↓
-Screen 4: AI Condition Assessment (5 sec)
-    ↓
-Screen 5: Refund Options (5 sec)
-    ↓
-Screen 6: Confirmation + Label (5 sec)
-```
-
-**Total: ~30 seconds** — exactly what App Clips are designed for.
-
-### How It Uses Reactiv Clips
-
-1. **Invocation:** Push notification via Reactiv's 8-hour engagement window, or QR code on packaging
-2. **Shopify Integration:** Pulls order data, product info, return policy via Storefront API
-3. **No App Install:** Instant access, no friction
-4. **Push Notifications:** Reminder before return label expires
-
-### AI Integration
-
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Image Upload | Cloudinary | Media ingestion and storage |
-| Condition Analysis | Cloudinary AI Vision | Detect damage, wear, stains |
-| Policy Reasoning | Google Gemini | Compare condition vs. policy, determine refund |
-
-### Example AI Decision
-
-**Input:**
-- Item: Velvet Accent Chair ($299)
-- Condition Score: 72% (minor scratch, light wear)
-- Policy: 30-day return, 85% threshold for full refund
-
-**Output:**
-```json
-{
-  "decision": "partial_refund",
-  "refundAmount": 239.20,
-  "restockingFee": 59.80,
-  "explanation": "Item shows signs of use. 20% restocking fee applies."
-}
-```
+Ecommerce returns cost merchants **$100+ billion annually** in North America. The current process takes 15–30 minutes of form-filling, email exchanges, and manual condition verification. Customers abandon returns due to friction, leading to chargebacks that cost merchants even more. Furniture and home goods brands face 15–22% return rates with each return consuming 20–65% of item value in reverse logistics. There is no scalable way for merchants to verify item condition before accepting a return — until now.
 
 ---
 
-## Platform Extensions Required
+### 2. Proposed Solution
 
-### For Full Production Deployment
+**How is the Clip invoked?** (check all that apply)
+- [x] QR Code (printed on physical surface)
+- [ ] NFC Tag (embedded in object — wristband, poster, etc.)
+- [x] iMessage / SMS Link
+- [ ] Safari Smart App Banner
+- [ ] Apple Maps (location-based)
+- [ ] Siri Suggestion
+- [x] Other: Push notification (8-hour post-delivery window via Reactiv Clips)
 
-1. **Cloudinary Webhook Integration** — Real-time condition analysis callback to Reactiv
-2. **Shopify Return Initiation API** — Create return record, generate label
-3. **Push Notification Templates** — Customizable merchant-branded notifications
-4. **Policy Builder UI** — Merchant dashboard to configure return rules
+**End-to-end user experience** (step by step):
+1. Customer receives delivery → 8 hours later, Reactiv push notification: "Need to return? Tap to start." (or scans QR code on packaging)
+2. App Clip opens → Order auto-confirmed → Customer selects item and return reason (5 seconds)
+3. Customer takes 3 guided photos of item condition (10 seconds)
+4. Cloudinary uploads + AI Vision analyzes condition → Gemini reasons against merchant return policy → Instant refund decision (5 seconds)
+5. Customer chooses refund option (full refund, store credit with 10% bonus, or exchange) → Gets QR return label (10 seconds)
+6. Done. Total: ~30 seconds. Customer drops off package at Canada Post with QR label.
 
-### What We Built vs. What We'd Need
+**How does the 8-hour notification window factor into your strategy?**
 
-| Feature | Hackathon MVP | Production |
-|---------|---------------|------------|
-| Order Data | Mock data | Shopify API |
-| Condition Analysis | Simulated | Full Cloudinary AI |
-| Policy Logic | Gemini prompt | Gemini + merchant rules |
-| Return Labels | QR mock | Canada Post API |
-| Push Notifications | Simulated | Reactiv infrastructure |
-
----
-
-## Impact Hypothesis
-
-### Revenue Impact: Merchandise Recovery
-
-**Current state (100 returns/month):**
-- 60 processed → $6,000 refunds
-- 40 abandoned due to friction
-- 15 chargebacks → $1,500 fees
-- **Total loss: $7,500**
-
-**With ReturnClip:**
-- 95 processed (friction removed)
-- 50 refunds → $5,000
-- 30 exchanges → $0 loss (sale retained)
-- 15 store credit → $750 retained
-- 5 chargebacks → $500 fees
-- **Total loss: $5,000 — 33% reduction**
-
-### Additional Value
-
-- **Fraud reduction:** AI catches condition misrepresentation
-- **Data capture:** Why customers return (product improvement)
-- **Brand trust:** Transparent, fair process builds loyalty
-- **Operational efficiency:** Automates manual inspection
-
-### Target Channel
-
-**Both venue (packaging QR) and online (push notification)** — unified experience regardless of how customer received the product.
+The 8-hour window is *the* key insight. Returns intent peaks within hours of delivery — that's when customers decide to keep or return. By using Reactiv's push notification at the 8-hour mark, we catch customers at peak decision-making time with zero friction. The Clip delivers the entire return flow in 30 seconds. Follow-up notifications can remind about return label expiry. This transforms the 8-hour window from a marketing tool into a post-purchase service channel.
 
 ---
 
-## Demo
+### 3. Platform Extensions (if applicable)
 
-### Screen Recording
+For full production deployment, ReturnClip would benefit from:
 
-[Link to demo video — 30-60 seconds showing full flow]
-
-### Screenshots
-
-1. Order confirmation with item selection
-2. Return reason picker
-3. Photo capture with guidelines
-4. AI condition assessment with score
-5. Refund options (full, partial, exchange, store credit)
-6. Confirmation with QR code label
-
-### URL Pattern
-
-```
-returnclip.app/return/:orderId
-```
-
-**Example:** `returnclip.app/return/12345`
+1. **Cloudinary Webhook Integration** — Real-time condition analysis callback to Reactiv for automated merchant notifications
+2. **Shopify Return Initiation API** — Native integration to create return records and generate shipping labels within the Clip
+3. **Push Notification Templates** — Customizable merchant-branded notification templates for the 8-hour post-delivery window
+4. **Policy Builder UI** — Merchant dashboard within Reactiv to configure return rules, condition thresholds, and restocking fees
 
 ---
 
-## Technical Implementation
+### 4. Prototype Description
 
-### Architecture
+**What does your working prototype demonstrate?**
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     ReturnClip App Clip                      │
-├─────────────────────────────────────────────────────────────┤
-│  ReturnClipExperience                                        │
-│  ├── OrderConfirmationView                                   │
-│  ├── ReturnReasonView                                        │
-│  ├── PhotoCaptureView ────────► Cloudinary Upload            │
-│  ├── ConditionResultView ◄───── Cloudinary AI Vision         │
-│  │                        ◄───── Gemini Policy Reasoning     │
-│  ├── RefundOptionsView                                       │
-│  └── ConfirmationView                                        │
-├─────────────────────────────────────────────────────────────┤
-│  Services                                                    │
-│  ├── CloudinaryService (REST API)                            │
-│  └── GeminiService (REST API)                                │
-├─────────────────────────────────────────────────────────────┤
-│  Data                                                        │
-│  ├── Order, LineItem, PaymentMethod                          │
-│  ├── ReturnPolicy, ConditionRequirement                      │
-│  ├── ConditionAssessment, RefundDecision                     │
-│  └── MockData (for demo)                                     │
-└─────────────────────────────────────────────────────────────┘
-```
+A complete 6-screen return flow built in SwiftUI:
 
-### Key Files
+| Screen | What It Does |
+|--------|-------------|
+| **Order Confirmation** | Displays order details, item selection with images, return window countdown |
+| **Return Reason** | Interactive reason picker with icons, optional notes field |
+| **Photo Capture** | Guided 3-photo capture with demo video, PhotosPicker integration, live preview grid |
+| **Condition Assessment** | AI condition score (0-100) with category breakdown, detected issues, policy check result |
+| **Refund Options** | Full refund / store credit with bonus / exchange cards with amounts |
+| **Confirmation** | QR return label (CoreImage generated), drop-off instructions, timeline, Apple Wallet integration |
 
-- `Experience/ReturnClipExperience.swift` — Main orchestrator
-- `Screens/*.swift` — Individual flow screens
-- `Services/CloudinaryService.swift` — Image upload + AI analysis
-- `Services/GeminiService.swift` — Policy reasoning
-- `Models/*.swift` — Data structures
-- `MockData/MockData.swift` — Demo data
+**Services implemented:**
+- `CloudinaryService` — Direct REST API upload with multipart form data, unsigned preset, AI condition analysis
+- `GeminiService` — Policy reasoning via Gemini 2.0 Flash with structured JSON output, temperature-controlled responses
 
-### No External Dependencies
-
-All API integrations use direct REST calls — no SPM, CocoaPods, or Carthage required per ClipKit Lab rules.
+**Key technical decisions:**
+- Zero external dependencies (no SPM/CocoaPods) per ClipKit Lab rules
+- All API calls use direct `URLSession` REST
+- Graceful fallback to mock data when APIs are unavailable (demo-safe)
+- `Decimal` type for all monetary values (no floating point errors)
 
 ---
 
-## Why This Wins
+### 5. Impact Hypothesis
 
-### Judging Criteria Alignment
+**Which channel benefits?** Both online and in-person (packaging QR).
 
-| Criteria | Weight | Our Score | Why |
-|----------|--------|-----------|-----|
-| **Novelty** | 30% | 🔥🔥🔥 | First AI condition + policy reasoning in App Clip. No competitor does this. |
-| **Constraint Awareness** | 25% | 🔥🔥🔥 | Perfect use of 8-hour push window. Sub-30-second experience. No app install. |
-| **Real-World Trigger** | 20% | 🔥🔥 | QR on packaging + push notification — both proven invocation methods. |
-| **Execution** | 15% | 🔥🔥 | Clean SwiftUI, working API integrations, polished demo. |
-| **Scalability** | 10% | 🔥🔥🔥 | Any Shopify store, any product category, any return policy. |
+**Conversion/engagement improvement estimate:**
 
-### The Question You Asked
+| Metric | Before ReturnClip | After ReturnClip | Delta |
+|--------|-------------------|------------------|-------|
+| Returns processed | 60% | 95% | +58% |
+| Processing time | 15-30 min | 30 seconds | -98% |
+| Chargebacks/month | 15 | 5 | -67% |
+| Revenue recovered | $0 | $2,350/month | New |
+| Store credit uptake | 10% | 35% | +250% |
 
-> "What experience fits the shape of an App Clip that nobody has thought of?"
+**Why this touchpoint?** Post-purchase returns are the #1 unsolved pain point in ecommerce. The 8-hour post-delivery window is when customers are most likely to act on return intent. By meeting them there with an instant, AI-powered experience, we convert friction into loyalty. Store credit with bonus incentivizes retained revenue. The AI condition check reduces fraud and builds merchant trust.
 
-**Answer:** Post-purchase returns verification. Time-sensitive (8-hour window). Focused task (30 seconds). Real business value ($100B problem). AI-powered differentiation.
+**Revenue model:** SaaS fee per merchant ($49-199/month) + per-return processing fee ($0.50-2.00). At scale, ReturnClip saves merchants $2,350+/month in recovered revenue and reduced chargebacks.
 
 ---
 
-## Team
+### Demo Video
 
-Built with 💪 at Hack Canada 2026
+Link: [To be recorded — 30-second screen recording of full flow]
 
-[Add team member info, roles, and contact]
+### Screenshot(s)
+
+[To be captured from Xcode simulator]

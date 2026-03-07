@@ -49,7 +49,7 @@ Ecommerce returns cost merchants **$100B+ annually**. Customers wait 15-30 minut
 |-------|------|
 | Frontend | Swift 5.0 + SwiftUI |
 | Image Analysis | Cloudinary Upload + AI Vision |
-| Policy Reasoning | Google Gemini API |
+| Policy Reasoning | Google Gemini 2.0 Flash |
 | Commerce | Shopify Storefront API |
 | Platform | Reactiv ClipKit Lab |
 
@@ -144,6 +144,27 @@ Example: `returnclip.app/return/12345`
 ## Team
 
 Built with 🔥 at Hack Canada 2026
+
+---
+
+## API Test Results
+
+Both APIs have been tested and verified. See [`tests/API_TEST_RESULTS.md`](tests/API_TEST_RESULTS.md) for details.
+
+| API | Status |
+|-----|--------|
+| Cloudinary Upload | ✅ Working |
+| Gemini 2.0 Flash | ✅ Key valid (free tier rate limits apply) |
+
+---
+
+## Hackathon Documents
+
+- [`SUBMISSION.md`](SUBMISSION.md) — Full submission per Reactiv ClipKit Lab format
+- [`PITCH.md`](PITCH.md) — 6-slide pitch deck content
+- [`QA_BANK.md`](QA_BANK.md) — 17 judge Q&A with answers
+- [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) — Ready-to-paste PR description
+- [`tests/API_TEST_RESULTS.md`](tests/API_TEST_RESULTS.md) — API verification results
 
 ---
 

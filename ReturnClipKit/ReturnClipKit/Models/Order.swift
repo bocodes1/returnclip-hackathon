@@ -68,3 +68,17 @@ enum PaymentType: String, Codable {
     case shopPay
     case paypal
 }
+
+// MARK: - Decimal Formatting Helper
+
+extension Decimal {
+    /// Converts Decimal to Double for string formatting
+    var doubleValue: Double {
+        NSDecimalNumber(decimal: self).doubleValue
+    }
+    
+    /// Formats as currency string (e.g., "299.00")
+    var currencyString: String {
+        String(format: "%.2f", doubleValue)
+    }
+}

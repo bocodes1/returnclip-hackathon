@@ -127,7 +127,7 @@ struct OrderConfirmationView: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    Text("$\(item.price, specifier: "%.2f")")
+                    Text("$\(item.price.currencyString)")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)

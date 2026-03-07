@@ -79,13 +79,13 @@ struct RefundOptionsView: View {
                     
                     // Amount
                     VStack(alignment: .trailing, spacing: 2) {
-                        Text("$\(option.amount, specifier: "%.2f")")
+                        Text("$\(option.amount.currencyString)")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(flowState.selectedRefundOption?.id == option.id ? .white : .primary)
                         
                         if let bonus = option.bonusAmount, bonus > 0 {
-                            Text("+$\(bonus, specifier: "%.2f") bonus")
+                            Text("+$\(bonus.currencyString) bonus")
                                 .font(.caption)
                                 .fontWeight(.medium)
                                 .foregroundColor(.green)
@@ -131,7 +131,7 @@ struct RefundOptionsView: View {
                 Text("Original Price")
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("$\(decision.originalAmount, specifier: "%.2f")")
+                Text("$\(decision.originalAmount.currencyString)")
             }
             .font(.subheadline)
             
@@ -140,7 +140,7 @@ struct RefundOptionsView: View {
                     Text("Restocking Fee")
                         .foregroundColor(.secondary)
                     Spacer()
-                    Text("-$\(fee, specifier: "%.2f")")
+                    Text("-$\(fee.currencyString)")
                         .foregroundColor(.red)
                 }
                 .font(.subheadline)
@@ -154,7 +154,7 @@ struct RefundOptionsView: View {
                         .fontWeight(.semibold)
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text("$\(selected.amount + (selected.bonusAmount ?? 0), specifier: "%.2f")")
+                        Text("$\((selected.amount + (selected.bonusAmount ?? 0)).currencyString)")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.green)
@@ -176,7 +176,7 @@ struct RefundOptionsView: View {
     private func optionIcon(_ type: RefundOptionType) -> String {
         switch type {
         case .refundToOriginal: return "creditcard.fill"
-        case .storeCredit: return "giftcard.fill"
+        case .storeCredit: return "gift.fill"
         case .exchange: return "arrow.triangle.2.circlepath"
         case .partialRefund: return "minus.circle.fill"
         }

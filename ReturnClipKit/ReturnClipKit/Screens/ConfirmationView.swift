@@ -49,7 +49,7 @@ struct ConfirmationView: View {
                 .fontWeight(.bold)
             
             if let option = flowState.selectedRefundOption {
-                Text("$\(option.amount + (option.bonusAmount ?? 0), specifier: "%.2f") \(refundTypeText(option.type))")
+                Text("$\((option.amount + (option.bonusAmount ?? 0)).currencyString) \(refundTypeText(option.type))")
                     .font(.headline)
                     .foregroundColor(.secondary)
             }
@@ -84,7 +84,7 @@ struct ConfirmationView: View {
                 Text("Return ID:")
                     .foregroundColor(.secondary)
                 Text("RTN-\(String(flowState.order?.orderNumber.suffix(8) ?? "00000000"))")
-                    .fontWeight(.mono)
+                    .monospaced()
                 
                 Button {
                     UIPasteboard.general.string = "RTN-\(String(flowState.order?.orderNumber.suffix(8) ?? "00000000"))"

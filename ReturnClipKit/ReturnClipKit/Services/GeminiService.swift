@@ -5,7 +5,7 @@ class GeminiService {
     static let shared = GeminiService()
     
     private let apiKey = APIKeys.geminiApiKey
-    private let baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+    private let baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
     
     private init() {}
     
