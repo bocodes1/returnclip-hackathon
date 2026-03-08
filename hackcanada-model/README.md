@@ -75,7 +75,7 @@ cd src
 python app.py
 ```
 
-Then visit: **http://localhost:5000**
+Then visit: **http://localhost:5001**
 
 The demo includes:
 - Image upload interface

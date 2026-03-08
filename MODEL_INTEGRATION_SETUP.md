@@ -34,12 +34,12 @@ pip install -r requirements.txt
 python src/app.py
 ```
 
-The service will start on **http://localhost:5000**
+The service will start on **http://localhost:5001**
 
 ### 2. Verify Service is Running
 
 ```bash
-curl http://localhost:5000/api/health
+curl http://localhost:5001/api/health
 ```
 
 Expected response:
@@ -121,7 +121,7 @@ ModelEvaluationService.shared.baseUrl = "http://your-host:port"
 Or edit the default in `ModelEvaluationService.swift`:
 
 ```swift
-var baseUrl: String = "http://localhost:5000"  // Change this
+var baseUrl: String = "http://localhost:5001"  // Change this
 ```
 
 ### Demo Mode (No Model Required)
@@ -149,7 +149,7 @@ Available demo cases:
 
 **Solution:**
 1. Ensure Flask app is running: `python src/app.py`
-2. Check it's on `http://localhost:5000`: `curl http://localhost:5000/api/health`
+2. Check it's on `http://localhost:5001`: `curl http://localhost:5001/api/health`
 3. If using a different host, update `ModelEvaluationService.shared.baseUrl`
 
 ### "Model not loaded" error in Flask logs
@@ -165,7 +165,7 @@ Available demo cases:
 **Cause:** Port conflict or firewall issue.
 
 **Solution:**
-1. Check what's on port 5000: `lsof -i :5000` (Mac/Linux) or `netstat -ano | findstr :5000` (Windows)
+1. Check what's on port 5000: `lsof -i :5001` (Mac/Linux) or `netstat -ano | findstr :5001` (Windows)
 2. Kill conflicting process or change Flask port in `app.py`
 3. Update `ModelEvaluationService` to match new port
 
@@ -175,8 +175,8 @@ Available demo cases:
 
 **Solution:**
 - On iOS Simulator, `localhost` doesn't resolve to the host machine.
-- Change `ModelEvaluationService.shared.baseUrl = "http://127.0.0.1:5000"`
-- Or if running on real device: use your machine's actual IP: `http://192.168.x.x:5000`
+- Change `ModelEvaluationService.shared.baseUrl = "http://127.0.0.1:5001"`
+- Or if running on real device: use your machine's actual IP: `http://192.168.x.x:5001`
 
 ---
 
@@ -188,7 +188,7 @@ The model service exposes these endpoints:
 Check if model is ready.
 
 ```bash
-curl http://localhost:5000/api/health
+curl http://localhost:5001/api/health
 ```
 
 Response:
@@ -206,7 +206,7 @@ Classify a sofa image.
 ```bash
 curl -X POST \
   -F "image=@sofa.jpg" \
-  http://localhost:5000/api/classify
+  http://localhost:5001/api/classify
 ```
 
 Response:
@@ -242,14 +242,14 @@ Response:
 Get pre-loaded demo result.
 
 ```bash
-curl http://localhost:5000/api/demo/light_damage_sofa
+curl http://localhost:5001/api/demo/light_damage_sofa
 ```
 
 ### `/api/demo-cases` (GET)
 List available demo cases.
 
 ```bash
-curl http://localhost:5000/api/demo-cases
+curl http://localhost:5001/api/demo-cases
 ```
 
 ---
@@ -278,7 +278,7 @@ Use the `/api/classify` endpoint directly:
 ```bash
 curl -X POST \
   -F "image=@your_sofa.jpg" \
-  http://localhost:5000/api/classify | jq
+  http://localhost:5001/api/classify | jq
 ```
 
 ---

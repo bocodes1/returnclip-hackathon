@@ -498,7 +498,7 @@ struct ConditionResultView: View {
                 .foregroundColor(.rcTextSecondary)
                 .lineSpacing(2)
 
-            Text("Ensure hackcanada-model Flask app is running on http://localhost:5000")
+            Text("Ensure hackcanada-model Flask app is running on http://localhost:5001")
                 .font(.system(size: 11))
                 .foregroundColor(.rcTextMuted)
                 .italic()

@@ -84,7 +84,7 @@ def setup_project():
 
 4. Run demo:
    python app.py
-   Visit: http://localhost:5000
+   Visit: http://localhost:5001
 
 📚 Read:
    - README.md (full docs)

@@ -80,7 +80,7 @@ bash dev-start.sh
 
 This starts **both services in one command**:
 - ✅ Backend (Next.js) on `http://localhost:3001`
-- ✅ ML Model (Flask) on `http://localhost:5000`
+- ✅ ML Model (Flask) on `http://localhost:5001`
 
 > First run will take ~30 seconds to install dependencies and set up Python venv.
 
@@ -215,7 +215,7 @@ ReturnClip includes a **second AI system** for testing and validation:
 The sofa condition classifier is included in this repository:
 
 📦 **`hackcanada-model/`** — PyTorch + MobileNetV2 classifier
-- Flask REST API (`http://localhost:5000`)
+- Flask REST API (`http://localhost:5001`)
 - Condition classification: CLEAN / LIGHT_DAMAGE / HEAVY_DAMAGE
 - Damage detection: tears, stains, water damage, etc.
 - Refund % recommendations
@@ -230,7 +230,7 @@ The sofa condition classifier is included in this repository:
 cd hackcanada-model
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
-python src/app.py  # Runs on http://localhost:5000
+python src/app.py  # Runs on http://localhost:5001
 ```
 
 **How it integrates with the app:**
