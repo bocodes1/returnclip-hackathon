@@ -20,7 +20,6 @@ web/node_modules
 hackcanada-model/venv/
 hackcanada-model/data/raw/
 hackcanada-model/data/processed/
-hackcanada-model/models/
 hackcanada-model/logs/
 hackcanada-model/__pycache__/
 hackcanada-model/.pytest_cache/
