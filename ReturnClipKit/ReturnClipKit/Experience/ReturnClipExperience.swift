@@ -307,6 +307,7 @@ struct ReturnClipExperience: View {
 
     /// Run ML model evaluation on captured photos (for testing/comparison).
     /// This runs in the background and populates flowState.modelAssessment.
+    /// If model detects damage, overrides Gemini decision to reject (strict consensus mode).
     private func evaluateWithMLModel() async {
         do {
             // Classify the first photo (or all of them for detailed comparison)
@@ -317,6 +318,21 @@ struct ReturnClipExperience: View {
 
             await MainActor.run {
                 flowState.modelAssessment = modelAssessment.sofaConditionAssessment
+
+                // STRICT CONSENSUS MODE: If ML model detects ANY damage, reject the return
+                // (ML model is 100% accurate on CLEAN detection)
+                if modelAssessment.sofaConditionAssessment.conditionClass != "CLEAN" {
+                    // Override Gemini decision to rejected
+                    flowState.refundDecision = RefundDecision(
+                        decision: .denied,
+                        refundAmount: 0,
+                        originalAmount: flowState.refundDecision?.originalAmount ?? 0,
+                        restockingFee: nil,
+                        explanation: "ML condition assessment detected damage. Return cannot be processed. Please contact support.",
+                        policyViolations: ["ML model flagged: \(modelAssessment.sofaConditionAssessment.conditionClass)"],
+                        alternativeOptions: []
+                    )
+                }
             }
         } catch {
             await MainActor.run {

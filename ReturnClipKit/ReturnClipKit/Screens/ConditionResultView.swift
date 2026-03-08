@@ -440,6 +440,21 @@ struct ConditionResultView: View {
                     .foregroundColor(.rcTextSecondary)
                     .lineSpacing(2)
             }
+
+            // STRICT CONSENSUS MODE: Show if decision was overridden
+            if modelAssessment.conditionClass != "CLEAN" && flowState.refundDecision?.decision == .denied {
+                HStack(spacing: RCSpacing.sm) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .font(.system(size: 11))
+                        .foregroundColor(.rcSuccess)
+                    Text("Strict consensus: ML damage detection overrides refund to REJECTED")
+                        .font(.system(size: 11))
+                        .foregroundColor(.rcSuccess)
+                }
+                .padding(RCSpacing.sm)
+                .background(Color.rcSuccess.opacity(0.1))
+                .cornerRadius(RCRadius.sm)
+            }
         }
         .padding(RCSpacing.lg)
         .background(Color.rcPrimaryLight.opacity(0.05))
