@@ -62,6 +62,13 @@ export interface ConditionAssessment {
   issues: DetectedIssue[];
   confidence: number;
   analysisTimestamp: string;
+  // AI Vision fields
+  conditionClass?: string;
+  returnable?: boolean;
+  reasonSummary?: string;
+  recommendedAction?: string;
+  aiMode?: 'gemini' | 'fallback';
+  fallbackReason?: string;
 }
 
 export interface CategoryScore {

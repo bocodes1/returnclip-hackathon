@@ -1,7 +1,7 @@
 // POST /api/returns/[caseId]/assess — Run AI condition assessment
 
 import { z } from 'zod';
-import { getCase, getEvidence, saveAssessment } from '@/lib/db';
+import { getCase, getEvidence, saveAssessment, getMockOrder } from '@/lib/db';
 import { analyzeCondition } from '@/lib/gemini';
 import { ApiError, ErrorCodes, handleRouteError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
@@ -26,9 +26,14 @@ export async function POST(
         const parsed = schema.safeParse(body);
         const imageUrls = parsed.data?.imageUrls || getEvidence(caseId);
 
-        logger.info('Running AI assessment', { caseId, imageCount: imageUrls.length });
+        // Resolve product name so Gemini can verify the photos match what's being returned
+        const order = getMockOrder(returnCase.orderId);
+        const item = order?.lineItems.find(li => li.id === returnCase.itemId) ?? order?.lineItems[0];
+        const productName = item?.title ?? 'the returned item';
 
-        const assessment = await analyzeCondition(imageUrls);
+        logger.info('Running AI assessment', { caseId, imageCount: imageUrls.length, productName });
+
+        const assessment = await analyzeCondition(imageUrls, productName);
         saveAssessment(caseId, assessment);
 
         return Response.json({ assessment });
