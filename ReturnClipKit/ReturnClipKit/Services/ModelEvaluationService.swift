@@ -6,9 +6,20 @@ import UIKit
 class ModelEvaluationService {
     static let shared = ModelEvaluationService()
 
-    /// Base URL for the hackcanada-model Flask API (defaults to localhost:5001)
-    /// Override this to point to a different host/port if needed
-    var baseUrl: String = "http://localhost:5001"
+    /// Base URL for the hackcanada-model Flask API
+    /// Automatically detects simulator vs device:
+    /// - Simulator: uses 127.0.0.1 (host bridge)
+    /// - Device: uses localhost
+    /// Override if needed for different host/port
+    var baseUrl: String = {
+        #if targetEnvironment(simulator)
+        // Simulator: 127.0.0.1 bridges to host's localhost
+        return "http://127.0.0.1:5001"
+        #else
+        // Physical device: use actual host IP
+        return "http://localhost:5001"
+        #endif
+    }()
 
     /// Whether the model service is reachable (cached for quick checks)
     private(set) var isReachable: Bool = false
