@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:ml\"",
+    "dev:ml": "cd ../hackcanada-model && python src/app.py",
     "build": "next build",
     "start": "next start -p 3001"
   },
@@ -16,6 +18,7 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
+    "concurrently": "^8.2.2",
     "typescript": "^5"
   }
 }

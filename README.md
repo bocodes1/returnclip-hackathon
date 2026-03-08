@@ -66,33 +66,41 @@ git clone https://github.com/bocodes1/returnclip-hackathon.git
 cd returnclip-hackathon
 ```
 
-### 2. [Optional] Start ML Model Service
+### 2. Start Backend + ML Model (Both Together) ⭐ EASIEST
 
-The app evaluates photos using **two AI systems**:
-
-| System | Source | Required? |
-|--------|--------|-----------|
-| **Gemini Vision** | Backend | ✅ Yes |
-| **ML Model** | Local Flask service | ⭐ Optional |
-
-To enable **ML model assessment** (side-by-side with Gemini):
-
+**Windows:**
 ```bash
-# In a new terminal window
-cd hackcanada-model
+double-click dev-start.bat
+```
 
-# Setup Python environment
+**Mac/Linux:**
+```bash
+bash dev-start.sh
+```
+
+This starts **both services in one command**:
+- ✅ Backend (Next.js) on `http://localhost:3001`
+- ✅ ML Model (Flask) on `http://localhost:5000`
+
+> First run will take ~30 seconds to install dependencies and set up Python venv.
+
+### 2b. [Alternative] Manual Start in Separate Terminals
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+**Terminal 2 - ML Model:**
+```bash
+cd hackcanada-model
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-# Start Flask service
 python src/app.py
 ```
-
-The service runs on **http://localhost:5000**. The iOS app will detect it and display ML assessments.
-
-> **Without this step:** The app works perfectly with just Gemini Vision.
 
 ### 3. Run iOS App
 
