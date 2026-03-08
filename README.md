@@ -73,16 +73,15 @@ The app evaluates photos using **two AI systems**:
 | System | Source | Required? |
 |--------|--------|-----------|
 | **Gemini Vision** | Backend | ✅ Yes |
-| **ML Model** | Local Flask service | Optional |
+| **ML Model** | Local Flask service | ⭐ Optional |
 
-**To enable ML model assessment**, clone and run the separate model repo:
+To enable **ML model assessment** (side-by-side with Gemini):
 
 ```bash
 # In a new terminal window
-git clone https://github.com/your-username/hackcanada-model.git
 cd hackcanada-model
 
-# Setup environment
+# Setup Python environment
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -91,7 +90,7 @@ pip install -r requirements.txt
 python src/app.py
 ```
 
-The model service will be available at **http://localhost:5000**. The iOS app will detect it automatically and display ML assessments alongside Gemini results.
+The service runs on **http://localhost:5000**. The iOS app will detect it and display ML assessments.
 
 > **Without this step:** The app works perfectly with just Gemini Vision.
 
@@ -198,28 +197,39 @@ Both APIs have been tested and verified. See [`tests/API_TEST_RESULTS.md`](tests
 
 ## ML Model Integration
 
-ReturnClip now includes a **second AI system** for testing and comparison:
+ReturnClip includes a **second AI system** for testing and validation:
 
-- **Primary Assessment:** Gemini Vision (backend) — always available
-- **Secondary Assessment:** Local ML model (optional) — shows side-by-side for comparison
+- **Primary Assessment:** Gemini Vision (backend) — always available ✅
+- **Secondary Assessment:** Local ML sofa classifier (optional) — displays side-by-side for comparison ⭐
 
-### ML Model Service (Separate Repo)
+### ML Model Service
 
-The sofa condition classifier is maintained in a separate repository:
+The sofa condition classifier is included in this repository:
 
-📦 **[hackcanada-model](https://github.com/your-username/hackcanada-model)**
-- PyTorch + MobileNetV2 image classification
-- Flask REST API on `http://localhost:5000`
+📦 **`hackcanada-model/`** — PyTorch + MobileNetV2 classifier
+- Flask REST API (`http://localhost:5000`)
 - Condition classification: CLEAN / LIGHT_DAMAGE / HEAVY_DAMAGE
-- Damage type detection: tears, stains, water damage, etc.
+- Damage detection: tears, stains, water damage, etc.
+- Refund % recommendations
 
-**How it integrates:**
-1. iOS app uploads photo
-2. Calls Gemini Vision (backend) — shows immediately
-3. Calls ML model service (background) — shows in "ML Model Assessment" section
+**Data Files (Gitignored):**
+- `venv/` — Python virtual environment
+- `data/raw/` — Training images (CLEAN, LIGHT_DAMAGE, HEAVY_DAMAGE)
+- `models/` — Trained model checkpoints
+
+**To run the model service:**
+```bash
+cd hackcanada-model
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+python src/app.py  # Runs on http://localhost:5000
+```
+
+**How it integrates with the app:**
+1. iOS app uploads photo → Cloudinary
+2. Calls Gemini Vision (backend) → displays immediately
+3. Calls ML model service (background) → displays in "ML Model Assessment" section
 4. Non-blocking — doesn't delay primary flow
-
-**To use:** Clone the model repo and run `python src/app.py` (see [Quick Start](#quick-start) above).
 
 For detailed setup and troubleshooting, see [`MODEL_INTEGRATION_SETUP.md`](MODEL_INTEGRATION_SETUP.md).
 
