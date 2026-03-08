@@ -47,13 +47,16 @@ Ecommerce returns cost merchants **$100B+ annually**. Customers wait 15-30 minut
 
 | Layer | Tech |
 |-------|------|
-| Frontend | Swift 5.0 + SwiftUI |
-| Image Analysis | Cloudinary Upload + AI Vision |
-| Policy Reasoning | Google Gemini 2.0 Flash |
+| iOS App Clip | Swift 5.0 + SwiftUI |
+| Backend API | Next.js 15 + TypeScript (port 3001) |
+| AI Vision | Google Gemini 2.0 Flash via OpenRouter |
+| Image Hosting | Cloudinary CDN |
 | Commerce | Shopify Storefront API |
+| Database | Supabase (PostgreSQL) |
+| ML Model | PyTorch (MobileNetV2) + Flask (port 5001) |
 | Platform | Reactiv ClipKit Lab |
 
-All API integrations use **direct REST calls** — zero external dependencies.
+iOS integrations use **direct REST calls** — zero external Swift dependencies.
 
 ---
 
@@ -138,29 +141,57 @@ Get keys from:
 ## Project Structure
 
 ```
-ReturnClipKit/
-├── ReturnClipKitApp.swift          # Entry point + URL routing
-├── Experience/
-│   └── ReturnClipExperience.swift   # Main flow orchestrator
-├── Screens/
-│   ├── OrderConfirmationView.swift  # Step 1: Confirm order
-│   ├── ReturnReasonView.swift       # Step 2: Why returning?
-│   ├── PhotoCaptureView.swift       # Step 3: Snap photos
-│   ├── ConditionResultView.swift    # Step 4: AI assessment
-│   ├── RefundOptionsView.swift      # Step 5: Choose refund
-│   └── ConfirmationView.swift       # Step 6: Label + done
-├── Services/
-│   ├── CloudinaryService.swift      # Image upload to CDN
-│   ├── BackendService.swift         # Backend API calls (orders, returns, Gemini)
-│   ├── ModelEvaluationService.swift # [NEW] ML model classification (optional)
-│   └── GeminiService.swift          # Policy reasoning (server-side)
-├── Models/
-│   ├── Order.swift                  # Order data
-│   ├── ReturnPolicy.swift           # Merchant policy rules
-│   ├── ConditionAssessment.swift    # AI analysis results
-│   └── ReturnFlowState.swift        # Flow state machine
-└── MockData/
-    └── MockData.swift               # Demo data
+returnclip-hackathon/
+├── ReturnClipKit/                   # iOS App Clip (Swift/SwiftUI)
+│   └── ReturnClipKit/
+│       ├── ReturnClipKitApp.swift          # Entry point + URL routing
+│       ├── Experience/
+│       │   └── ReturnClipExperience.swift  # Main flow orchestrator
+│       ├── Screens/
+│       │   ├── OrderConfirmationView.swift  # Step 1: Confirm order
+│       │   ├── ReturnReasonView.swift       # Step 2: Why returning?
+│       │   ├── PhotoCaptureView.swift       # Step 3: Snap photos
+│       │   ├── ConditionResultView.swift    # Step 4: AI assessment
+│       │   ├── RefundOptionsView.swift      # Step 5: Choose refund
+│       │   └── ConfirmationView.swift       # Step 6: Label + done
+│       ├── Services/
+│       │   ├── CloudinaryService.swift      # Image upload to CDN
+│       │   ├── BackendService.swift         # Backend API calls
+│       │   ├── ModelEvaluationService.swift # ML model classification (optional)
+│       │   └── GeminiService.swift          # Policy reasoning
+│       ├── Models/
+│       │   ├── Order.swift                  # Order data
+│       │   ├── ReturnPolicy.swift           # Merchant policy rules
+│       │   ├── ConditionAssessment.swift    # AI analysis results
+│       │   └── ReturnFlowState.swift        # Flow state machine
+│       └── MockData/MockData.swift          # Demo data (works without API keys)
+│
+├── backend/                         # Next.js REST API
+│   └── src/
+│       ├── app/api/
+│       │   ├── health/              # Health check
+│       │   ├── orders/lookup/       # Shopify order lookup
+│       │   ├── returns/             # Return case management
+│       │   │   └── [caseId]/
+│       │   │       ├── assess/      # Gemini vision analysis
+│       │   │       ├── decide/      # Refund policy decision
+│       │   │       ├── execute/     # Finalize return
+│       │   │       └── evidence/    # Save image evidence
+│       │   └── uploads/sign/        # Cloudinary signature
+│       └── lib/
+│           ├── gemini.ts            # Gemini Vision + policy reasoning
+│           ├── cloudinary.ts        # Image CDN client
+│           ├── shopify.ts           # Shopify API client
+│           └── supabase.ts          # Persistence layer
+│
+├── hackcanada-model/                # PyTorch ML Model Service
+│   └── src/
+│       ├── app.py                   # Flask REST API (port 5001)
+│       ├── inference.py             # SofaClassifier + predictions
+│       └── train.py                 # Training script
+│
+├── dev-start.sh / dev-start.bat    # One-command startup scripts
+└── tests/API_TEST_RESULTS.md        # API verification results
 ```
 
 ---
@@ -172,6 +203,29 @@ returnclip.app/return/:orderId
 ```
 
 Example: `returnclip.app/return/12345`
+
+---
+
+## Backend API Reference
+
+### Returns Flow
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/health` | Health check |
+| GET | `/api/orders/lookup?orderId=:id` | Fetch order from Shopify |
+| POST | `/api/returns/create` | Create return case |
+| GET | `/api/returns/[caseId]` | Get case details |
+| POST | `/api/returns/[caseId]/assess` | Run Gemini vision analysis |
+| POST | `/api/returns/[caseId]/decide` | Get Gemini policy decision |
+| POST | `/api/returns/[caseId]/evidence` | Save image evidence |
+| POST | `/api/returns/[caseId]/execute` | Finalize return |
+| POST | `/api/uploads/sign` | Get Cloudinary upload signature |
+
+Quick test:
+```bash
+curl http://localhost:3001/api/health
+```
 
 ---
 
@@ -246,9 +300,6 @@ For detailed setup and troubleshooting, see [`MODEL_INTEGRATION_SETUP.md`](MODEL
 ## Hackathon Documents
 
 - [`SUBMISSION.md`](SUBMISSION.md) — Full submission per Reactiv ClipKit Lab format
-- [`PITCH.md`](PITCH.md) — 6-slide pitch deck content
-- [`QA_BANK.md`](QA_BANK.md) — 17 judge Q&A with answers
-- [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) — Ready-to-paste PR description
 - [`MODEL_INTEGRATION_SETUP.md`](MODEL_INTEGRATION_SETUP.md) — ML model integration guide
 - [`tests/API_TEST_RESULTS.md`](tests/API_TEST_RESULTS.md) — API verification results
 
