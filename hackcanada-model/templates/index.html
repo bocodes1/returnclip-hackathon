@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReturnClip - Sofa Condition Assessment Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .panel h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        /* Upload Section */
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+
+        .upload-area.drag-over {
+            border-color: #764ba2;
+            background: #e8ebff;
+        }
+
+        .upload-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: transform 0.2s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .upload-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Demo Cases */
+        .demo-cases {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .demo-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .demo-btn-clean {
+            background: #4ade80;
+            color: white;
+        }
+
+        .demo-btn-light {
+            background: #fbbf24;
+            color: white;
+        }
+
+        .demo-btn-heavy {
+            background: #f87171;
+            color: white;
+        }
+
+        .demo-btn:hover {
+            opacity: 0.9;
+            transform: translateX(5px);
+        }
+
+        /* Results Section */
+        .results {
+            min-height: 400px;
+        }
+
+        .result-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .verdict {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+
+        .verdict-icon {
+            font-size: 2.5em;
+        }
+
+        .verdict-text h3 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .verdict-text p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .confidence-badge {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .damage-section {
+            margin-bottom: 20px;
+        }
+
+        .damage-section h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .damage-list {
+            list-style: none;
+        }
+
+        .damage-item {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #fbbf24;
+        }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .severity-light {
+            background: #d1d5db;
+            color: #374151;
+        }
+
+        .severity-moderate {
+            background: #fbbf24;
+            color: white;
+        }
+
+        .severity-severe {
+            background: #f87171;
+            color: white;
+        }
+
+        .return-recommendation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .return-recommendation h4 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .refund-percent {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .model-status {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .status-ready {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-demo {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .panel {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛋️ ReturnClip</h1>
+            <p>AI-Powered Sofa Return Condition Assessment</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Left Panel: Upload & Demo -->
+            <div class="panel">
+                <h2>Upload Image or Try Demo</h2>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📸</div>
+                    <p><strong>Drag and drop your sofa image here</strong></p>
+                    <p style="font-size: 0.9em; color: #999;">or click to select</p>
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        Choose File
+                    </button>
+                    <input type="file" id="fileInput" accept="image/*">
+                </div>
+
+                <div style="margin: 30px 0; text-align: center; color: #999;">
+                    <strong>OR</strong>
+                </div>
+
+                <div>
+                    <p style="margin-bottom: 15px; color: #333; font-weight: 600;">🎬 Try Demo Cases:</p>
+                    <div class="demo-cases">
+                        <button class="demo-btn demo-btn-clean" onclick="loadDemo('clean_sofa')">
+                            ✓ Clean Sofa (Full Refund)
+                        </button>
+                        <button class="demo-btn demo-btn-light" onclick="loadDemo('light_damage_sofa')">
+                            ⚠ Light Damage (65% Refund)
+                        </button>
+                        <button class="demo-btn demo-btn-heavy" onclick="loadDemo('heavy_damage_sofa')">
+                            ✗ Heavy Damage (Rejected)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="model-status">
+                    <p><strong>Model Status:</strong></p>
+                    <div class="status-badge" id="modelStatus">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results -->
+            <div class="panel">
+                <h2>Assessment Results</h2>
+
+                <div class="results" id="results">
+                    <div style="color: #999; text-align: center; margin-top: 40px;">
+                        <p>Upload an image or select a demo to see results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.add('drag-over'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('drag-over'), false);
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            fileInput.files = files;
+            handleUpload();
+        });
+
+        fileInput.addEventListener('change', handleUpload);
+
+        function handleUpload() {
+            if (!fileInput.files.length) return;
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            showLoading();
+            fetch('/api/classify', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => displayResult(data))
+            .catch(err => showError('Upload failed: ' + err.message));
+        }
+
+        function loadDemo(caseId) {
+            showLoading();
+            fetch(`/api/demo/${caseId}`)
+                .then(r => r.json())
+                .then(data => displayResult(data))
+                .catch(err => showError('Demo load failed: ' + err.message));
+        }
+
+        function showLoading() {
+            document.getElementById('results').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Assessing sofa condition...</p>
+                </div>
+            `;
+        }
+
+        function showError(msg) {
+            document.getElementById('results').innerHTML = `
+                <div class="error">
+                    <strong>Error:</strong> ${msg}
+                </div>
+            `;
+        }
+
+        function displayResult(data) {
+            if (data.error) {
+                showError(data.error);
+                return;
+            }
+
+            const assessment = data.sofa_condition_assessment;
+            const verdict = assessment.primary_verdict;
+            const eligibility = assessment.return_eligibility;
+            const damages = assessment.damage_analysis;
+
+            let iconMap = {
+                'CLEAN': '✅',
+                'LIGHT_DAMAGE': '⚠️',
+                'HEAVY_DAMAGE': '❌'
+            };
+
+            let colorMap = {
+                'CLEAN': '#4ade80',
+                'LIGHT_DAMAGE': '#fbbf24',
+                'HEAVY_DAMAGE': '#f87171'
+            };
+
+            let html = `
+                <div class="verdict" style="border-left-color: ${colorMap[verdict.condition_class]}">
+                    <div class="verdict-icon">${iconMap[verdict.condition_class]}</div>
+                    <div class="verdict-text">
+                        <h3>${verdict.condition_class.replace(/_/g, ' ')}</h3>
+                        <p>${eligibility.reason}</p>
+                        <span class="confidence-badge">Confidence: ${(verdict.confidence * 100).toFixed(1)}%</span>
+                    </div>
+                </div>
+            `;
+
+            if (damages.damage_types_detected && damages.damage_types_detected.length > 0) {
+                html += `
+                    <div class="damage-section">
+                        <h4>🔍 Damage Detected:</h4>
+                        <ul class="damage-list">
+                `;
+                damages.damage_descriptions.forEach(dmg => {
+                    html += `
+                        <li class="damage-item">
+                            <strong>${dmg.type}</strong>
+                            <span class="severity-badge severity-${dmg.severity.toLowerCase()}">
+                                ${dmg.severity}
+                            </span>
+                            <div style="color: #666; font-size: 0.85em; margin-top: 5px;">
+                                Region: ${dmg.affected_region || 'N/A'}
+                            </div>
+                        </li>
+                    `;
+                });
+                html += `
+                        </ul>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="return-recommendation">
+                    <h4>${eligibility.refund_recommendation}</h4>
+                    <div class="refund-percent">${eligibility.estimated_refund_percent}%</div>
+                    <p style="font-size: 0.95em;">${eligibility.reason}</p>
+            `;
+
+            if (assessment.confidence_and_flags.requires_human_review) {
+                html += `
+                    <p style="margin-top: 15px; font-style: italic; opacity: 0.9;">
+                        ⚠️ Flagged for human review: ${assessment.confidence_and_flags.review_reason}
+                    </p>
+                `;
+            }
+
+            html += `</div>`;
+
+            document.getElementById('results').innerHTML = html;
+        }
+
+        // Check model status on load
+        function checkModelStatus() {
+            fetch('/api/health')
+                .then(r => r.json())
+                .then(data => {
+                    const badge = document.getElementById('modelStatus');
+                    if (data.model_loaded) {
+                        badge.innerHTML = '<span class="status-badge status-ready">✓ Model Ready</span>';
+                    } else {
+                        badge.innerHTML = '<span class="status-badge status-demo">🎬 Demo Mode (Train to Enable Full)</span>';
+                    }
+                });
+        }
+
+        checkModelStatus();
+    </script>
+</body>
+</html>

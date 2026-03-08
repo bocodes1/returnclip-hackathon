@@ -1,0 +1,98 @@
+{
+  "CLEAN": [
+    {
+      "image": "CLEAN_web_20260307_none_012.jpeg",
+      "predicted": "CLEAN",
+      "confidence": 0.5512132048606873,
+      "correct": true
+    },
+    {
+      "image": "CLEAN_web_20260307_none_024.webp",
+      "predicted": "CLEAN",
+      "confidence": 0.6495660543441772,
+      "correct": true
+    },
+    {
+      "image": "CLEAN_web_20260307_none_014.jpg",
+      "predicted": "CLEAN",
+      "confidence": 0.7486298084259033,
+      "correct": true
+    }
+  ],
+  "LIGHT_DAMAGE": [
+    {
+      "image": "LIGHT_DAMAGE_web_20260307_damage_018.jpg",
+      "predicted": "LIGHT_DAMAGE",
+      "confidence": 0.5046039819717407,
+      "correct": true
+    },
+    {
+      "image": "LIGHT_DAMAGE_web_20260307_damage_022.jpg",
+      "predicted": "HEAVY_DAMAGE",
+      "confidence": 0.6763584017753601,
+      "correct": false
+    },
+    {
+      "image": "LIGHT_DAMAGE_web_20260307_damage_027.webp",
+      "predicted": "HEAVY_DAMAGE",
+      "confidence": 0.4940807521343231,
+      "correct": false
+    },
+    {
+      "image": "LIGHT_DAMAGE_web_20260307_damage_001.jpg",
+      "predicted": "LIGHT_DAMAGE",
+      "confidence": 0.5510684251785278,
+      "correct": true
+    },
+    {
+      "image": "How_to_Repair_a_Tear_in_a_Leather_Sofa_Step-by-Step_Guide_8910cc80-3390-489c-94fe-ce4f7ccb3a88.webp",
+      "predicted": "CLEAN",
+      "confidence": 0.39261165261268616,
+      "correct": false
+    }
+  ],
+  "HEAVY_DAMAGE": [
+    {
+      "image": "HEAVY_DAMAGE_web_20260307_damage_020.jpg",
+      "predicted": "HEAVY_DAMAGE",
+      "confidence": 0.5698306560516357,
+      "correct": true
+    },
+    {
+      "image": "HEAVY_DAMAGE_web_20260307_damage_035.webp",
+      "predicted": "CLEAN",
+      "confidence": 0.4002596437931061,
+      "correct": false
+    },
+    {
+      "image": "HEAVY_DAMAGE_web_20260307_damage_022.jpg",
+      "predicted": "LIGHT_DAMAGE",
+      "confidence": 0.49775728583335876,
+      "correct": false
+    },
+    {
+      "image": "HEAVY_DAMAGE_web_20260307_damage_007.webp",
+      "predicted": "HEAVY_DAMAGE",
+      "confidence": 0.441488116979599,
+      "correct": true
+    },
+    {
+      "image": "HEAVY_DAMAGE_web_20260307_damage_010.webp",
+      "predicted": "HEAVY_DAMAGE",
+      "confidence": 0.8712490200996399,
+      "correct": true
+    },
+    {
+      "image": "HEAVY_DAMAGE_web_20260307_damage_017.jpg",
+      "predicted": "HEAVY_DAMAGE",
+      "confidence": 0.8934167623519897,
+      "correct": true
+    },
+    {
+      "image": "HEAVY_DAMAGE_web_20260307_damage_008.jpg",
+      "predicted": "HEAVY_DAMAGE",
+      "confidence": 0.8156729936599731,
+      "correct": true
+    }
+  ]
+}

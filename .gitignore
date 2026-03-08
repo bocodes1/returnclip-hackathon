@@ -15,3 +15,14 @@ backend/.env
 backend/.env.local
 node_modules*
 web/node_modules
+
+# ML Model training data (large files)
+hackcanada-model/venv/
+hackcanada-model/data/raw/
+hackcanada-model/data/processed/
+hackcanada-model/models/
+hackcanada-model/logs/
+hackcanada-model/__pycache__/
+hackcanada-model/.pytest_cache/
+hackcanada-model/*.pyc
+hackcanada-model/.ipynb_checkpoints/

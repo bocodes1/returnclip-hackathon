@@ -1,0 +1,190 @@
+╔════════════════════════════════════════════════════════════════╗
+║         RETURNCLIP QUICK REFERENCE CARD FOR ANNOTATION          ║
+║                 Print this and have handy while labeling!       ║
+╚════════════════════════════════════════════════════════════════╝
+
+THREE CLASS SYSTEM - PICK ONE:
+┌─────────────────────────────────────────────────────────────┐
+│ CLEAN (Refund: 100%)                                        │
+│ ────────────────────────────────────────────────────────    │
+│ • Zero visible defects                                      │
+│ • Looks new/pristine                                        │
+│ • Product photos from Shopify, Wayfair, IKEA                │
+│ ✓ Examples: Professional furniture photos                   │
+│                                                             │
+│ 15-20 seconds to label (quick check)                        │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ LIGHT_DAMAGE (Refund: 65%)                                  │
+│ ────────────────────────────────────────────────────────    │
+│ • 1-2 minor issues                                          │
+│ • Single localized damage                                   │
+│ • Still returnable & usable                                 │
+│ ✓ Examples:                                                 │
+│   - Small stain (fist-sized)                                │
+│   - 1-inch tear (not exposing foam)                          │
+│   - Light scratches on leg                                  │
+│   - Minor cushion dent (bounces back)                        │
+│   - Loose thread/seam (1 area only)                          │
+│                                                             │
+│ 45-60 seconds to label (list damage types)                  │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ HEAVY_DAMAGE (Refund: 0% / Rejected)                        │
+│ ────────────────────────────────────────────────────────    │
+│ • Multiple issues OR single severe damage                   │
+│ • Affects structure/usability                               │
+│ • NOT returnable                                            │
+│ ✓ Examples:                                                 │
+│   - Tear > 2 inches or exposing foam                        │
+│   - Large stain (> 1 cushion)                               │
+│   - Heavy staining (> 20% visible)                          │
+│   - Broken frame/legs                                       │
+│   - Cushion crushed (doesn't bounce back)                    │
+│   - Multiple loose seams                                    │
+│   - Missing parts (leg, armrest)                            │
+│                                                             │
+│ 60-90 seconds to label (multiple damage types)              │
+└─────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════
+
+DAMAGE TYPES - CHECK ALL THAT APPLY:
+(Only if NOT CLEAN)
+
+□ tears        - Rips or holes in fabric
+□ stains       - Discoloration, marks, spots
+□ scratches    - Surface marks on frame/legs
+□ sagging      - Cushion doesn't spring back
+□ frame        - Crack/warp in wooden structure
+□ missing      - Parts missing (legs, pillows, etc)
+□ seams        - Seam separation or splitting
+□ pet          - Pet damage (claws, bites)
+□ water        - Water damage, mold, moisture
+□ wear         - Pilling, fading, general wear
+
+═══════════════════════════════════════════════════════════════
+
+SEVERITY FOR EACH DAMAGE - PICK ONE:
+
+LIGHT (Cosmetic, easily cleaned/repaired)
+  • Small: < 1 inch tear / fist-sized stain
+  • Surface only: paint chip, scratches that don't go deep
+  • Localized: single area only
+
+MODERATE (Noticeable, might need professional help)
+  • 1-3 inches: medium tear / couch-cushion-sized stain
+  • Professional cleaning might help
+  • Affects one section noticeably
+
+SEVERE (Permanent, requires replacement)
+  • > 3 inches: large tear / multiple stains
+  • Foam exposed or visible
+  • Affects multiple areas or structure
+  • Broken/missing parts
+
+═══════════════════════════════════════════════════════════════
+
+QUICK DECISION TREE:
+
+Does image have ANY visible damage?
+├─ NO  → LABEL: CLEAN ✓
+└─ YES → Is it bad?
+    ├─ 1-2 small issues (minor scratch, small stain)
+    │  → LABEL: LIGHT_DAMAGE ✓
+    └─ Multiple issues OR 1 big issue (torn, broken, etc)
+       → LABEL: HEAVY_DAMAGE ✓
+
+UNSURE? Ask: "Would I return this as a furniture store?"
+Yes = LIGHT_DAMAGE
+No = HEAVY_DAMAGE
+
+═══════════════════════════════════════════════════════════════
+
+TRICKY SITUATIONS:
+
+Fabric Pattern vs Stain?
+→ Stain has irregular edges, pattern repeats evenly
+
+Shadow vs Damage?
+→ Shadow has soft edges, damage has crisp edges
+
+Normal flex vs Permanent sag?
+→ Press with hand: bounces = LIGHT / stays flat = HEAVY
+
+One small stain vs Many small stains?
+→ One area = LIGHT / Multiple areas = HEAVY
+
+═══════════════════════════════════════════════════════════════
+
+ANNOTATION FIELDS TO FILL:
+
+image_filename: (auto-filled from file)
+condition_class: CLEAN | LIGHT_DAMAGE | HEAVY_DAMAGE
+damage_types: (semicolon separated if multiple)
+              tears; stains; pet
+              OR leave blank if CLEAN
+severity: LIGHT | MODERATE | SEVERE
+affected_region: front_cushion / armrest / multiple / N/A
+confidence: (0.0 - 1.0) how sure are you?
+            0.95 = very sure
+            0.75 = pretty sure
+            0.55 = unsure
+            (mark ambiguous if < 0.70)
+ambiguous_flag: TRUE if unsure | FALSE if confident
+
+═══════════════════════════════════════════════════════════════
+
+RED FLAGS - SKIP THESE IMAGES:
+
+⚠️ Image too dark
+⚠️ Extreme close-up (can't see whole sofa)
+⚠️ Sofa cut off / not complete
+⚠️ Computer-generated / fake-looking
+⚠️ Not a sofa (wrong item)
+⚠️ Duplicate of another image
+
+═══════════════════════════════════════════════════════════════
+
+FILE NAME FORMAT:
+
+[CONDITION]_[SOURCE]_[DATE]_[DAMAGE_TYPE]_[NUMBER].jpg
+
+Rename to:
+CLEAN_shopify_20250307_none_001.jpg
+LIGHT_DAMAGE_craigslist_20250306_stains_002.jpg
+HEAVY_DAMAGE_marketplace_20250305_tears_003.jpg
+
+DO NOT use spaces or special characters in filename!
+
+═══════════════════════════════════════════════════════════════
+
+SPEED TARGETS:
+
+CLEAN:         15-20 sec   (quick check for defects)
+LIGHT_DAMAGE:  45-60 sec   (list damage, pick severity)
+HEAVY_DAMAGE:  60-90 sec   (multiple damage types)
+
+Total for 300 images: 4-6 hours
+
+═══════════════════════════════════════════════════════════════
+
+REMEMBER:
+
+✓ Pick ONE condition class per image
+✓ Check ALL applicable damage types
+✓ Pick ONE severity level per damage type
+✓ If unsure (confidence < 0.70): mark ambiguous, flag for review
+✓ QA later: spot-check 20% of labels
+✓ Speed over perfection in hackathon!
+
+═══════════════════════════════════════════════════════════════
+
+Questions during labeling?
+
+→ Reread this card
+→ Check ANNOTATION_GUIDE.md (full version)
+→ Ask teammate
+→ When in doubt: imagine you're the store - would you accept?
