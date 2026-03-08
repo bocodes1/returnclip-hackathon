@@ -7,7 +7,8 @@ class ReturnFlowState: ObservableObject {
     @Published var currentStep: ReturnStep = .orderConfirmation
     
     // Order data
-    @Published var order: Order?
+    @Published var order: Order?           // merged display order (all line items)
+    @Published var orders: [Order] = []    // individual source orders for case creation
     @Published var policy: ReturnPolicy?
     @Published var selectedItem: LineItem?
     
@@ -81,6 +82,7 @@ class ReturnFlowState: ObservableObject {
     
     func reset() {
         currentStep = .orderConfirmation
+        orders = []
         selectedItem = nil
         returnReason = nil
         additionalNotes = ""
