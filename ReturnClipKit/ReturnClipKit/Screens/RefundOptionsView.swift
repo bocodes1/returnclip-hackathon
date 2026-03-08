@@ -3,29 +3,173 @@ import SwiftUI
 /// Screen 5: Choose refund option
 struct RefundOptionsView: View {
     @ObservedObject var flowState: ReturnFlowState
-    
+    @State private var showExchangeBrowser = false
+
+    var isExchangeSelected: Bool {
+        flowState.selectedRefundOption?.type == .exchange
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: RCSpacing.xl) {
                 // Header
                 headerSection
                     .slideIn(delay: 0.1)
-                
+
                 // Refund options
                 if let decision = flowState.refundDecision {
                     optionsSection(decision)
-                    
+
+                    // Exchange product picker — shown when exchange is selected
+                    if isExchangeSelected {
+                        exchangePickerSection
+                            .slideIn(delay: 0.1)
+                    }
+
                     // Summary
                     summarySection(decision)
                         .slideIn(delay: 0.4)
                 }
-                
+
                 Spacer(minLength: 100)
             }
             .padding(.horizontal, RCSpacing.lg)
             .padding(.top, RCSpacing.sm)
         }
         .background(Color.rcSurface)
+        .sheet(isPresented: $showExchangeBrowser) {
+            ExchangeProductsView(flowState: flowState)
+        }
+    }
+
+    // Exchange product picker card
+    private var exchangePickerSection: some View {
+        VStack(alignment: .leading, spacing: RCSpacing.md) {
+            HStack(spacing: RCSpacing.sm) {
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .foregroundColor(.rcPrimary)
+                    .font(.system(size: 15))
+                Text("Choose Exchange Item")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundColor(.rcTextPrimary)
+            }
+
+            if let product = flowState.selectedExchangeProduct,
+               let variant = flowState.selectedExchangeVariant {
+                // Show selected exchange item
+                HStack(spacing: RCSpacing.md) {
+                    AsyncImage(url: URL(string: product.imageUrl ?? "")) { phase in
+                        if case .success(let img) = phase {
+                            img.resizable().aspectRatio(contentMode: .fill)
+                        } else {
+                            Color.rcSurfaceMuted
+                        }
+                    }
+                    .frame(width: 52, height: 52)
+                    .clipped()
+                    .cornerRadius(RCRadius.sm)
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(product.title)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.rcTextPrimary)
+                            .lineLimit(1)
+                        Text(variant.title)
+                            .font(.system(size: 12))
+                            .foregroundColor(.rcTextSecondary)
+                        Text(String(format: "$%.2f CAD", variant.price))
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
+                            .foregroundColor(.rcPrimary)
+                    }
+
+                    Spacer()
+
+                    Button("Change") {
+                        RCHaptics.selection()
+                        showExchangeBrowser = true
+                    }
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.rcPrimary)
+                }
+
+                // Price comparison
+                if let option = flowState.selectedRefundOption {
+                    let returnValue = Decimal(NSDecimalNumber(decimal: option.amount).doubleValue)
+                    let exchPrice = Decimal(variant.price)
+                    let diff = returnValue - exchPrice
+
+                    VStack(spacing: 6) {
+                        Divider()
+
+                        HStack {
+                            Text("Return value")
+                                .font(.system(size: 12))
+                                .foregroundColor(.rcTextSecondary)
+                            Spacer()
+                            Text("$\(returnValue.currencyString)")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(.rcTextPrimary)
+                        }
+
+                        HStack {
+                            Text("Exchange item")
+                                .font(.system(size: 12))
+                                .foregroundColor(.rcTextSecondary)
+                            Spacer()
+                            Text("$\(exchPrice.currencyString)")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundColor(.rcTextPrimary)
+                        }
+
+                        Divider()
+
+                        HStack {
+                            if diff >= 0 {
+                                Label("You'll receive back", systemImage: "arrow.down.circle.fill")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.rcSuccess)
+                                Spacer()
+                                Text("$\(diff.currencyString)")
+                                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                                    .foregroundColor(.rcSuccess)
+                            } else {
+                                Label("Additional charge", systemImage: "arrow.up.circle.fill")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.rcError)
+                                Spacer()
+                                Text("$\((-diff).currencyString)")
+                                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                                    .foregroundColor(.rcError)
+                            }
+                        }
+                    }
+                }
+            } else {
+                Button {
+                    RCHaptics.impact(.medium)
+                    showExchangeBrowser = true
+                } label: {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        Text("Browse Available Products")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 12))
+                    }
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.rcPrimary)
+                    .padding(RCSpacing.md)
+                    .background(Color.rcPrimary.opacity(0.08))
+                    .cornerRadius(RCRadius.md)
+                }
+                .buttonStyle(PlainButtonStyle())
+
+                Text("Required to confirm exchange")
+                    .font(.system(size: 11))
+                    .foregroundColor(.rcTextMuted)
+            }
+        }
+        .rcCard()
     }
     
     // MARK: - Components

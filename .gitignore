@@ -7,3 +7,11 @@ build/
 
 # macOS
 .DS_Store
+
+# Environment variables — never commit real API keys
+.env
+.env.local
+backend/.env
+backend/.env.local
+node_modules*
+web/node_modules

@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B9766D4A44324F2C44A5B6A /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD49899C76A838D323F279E /* MockData.swift */; };
+		140379E03CB340C911F38216 /* BackendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CF84F7DF8ABD36AEC2568E /* BackendService.swift */; };
 		2DB8D9AE694A97D854910941 /* CloudinaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA2E225F585F5EE3D97BE1 /* CloudinaryService.swift */; };
 		3D4C7655B0887C8AA196CDD1 /* ConditionResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7180E1E990DD251CDDF1E7A /* ConditionResultView.swift */; };
 		4D7F07DD9D82D86014487D52 /* ConditionAssessment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800226C34EFDD4EF66928821 /* ConditionAssessment.swift */; };
 		510D9F9E20641412A2B3E790 /* OrderConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5755776B313FD7F0E6969970 /* OrderConfirmationView.swift */; };
+		5EB5EB3B7C8D835C48EE0635 /* ExchangeProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFD4663B554AFFC67D181C3 /* ExchangeProductsView.swift */; };
 		80FBABC00EC0FD1E49BB0E92 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B650B78BC8BE2F9B459BC661 /* PhotoCaptureView.swift */; };
 		97CB2952B937FF6A558E46D3 /* GeminiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FDD459FFCFAA8F0559368 /* GeminiService.swift */; };
 		9CEAF239C80A2F5D47CD664A /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CC9B109B980BB4B91E0509 /* Order.swift */; };
@@ -30,11 +31,12 @@
 		08CC9B109B980BB4B91E0509 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		2458DE81E7C6B976597F3A4C /* ReturnClipExperience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnClipExperience.swift; sourceTree = "<group>"; };
 		27D740645005AEC937B2F41E /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
+		29A9F9E47E4B97FD91C4047F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2F9FDD459FFCFAA8F0559368 /* GeminiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiService.swift; sourceTree = "<group>"; };
 		45AA2E225F585F5EE3D97BE1 /* CloudinaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudinaryService.swift; sourceTree = "<group>"; };
 		53E3DEFC73AC74832B203F79 /* ReturnPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnPolicy.swift; sourceTree = "<group>"; };
 		5755776B313FD7F0E6969970 /* OrderConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConfirmationView.swift; sourceTree = "<group>"; };
-		5FD49899C76A838D323F279E /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		65CF84F7DF8ABD36AEC2568E /* BackendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendService.swift; sourceTree = "<group>"; };
 		6E3D61E89C0FE36A9CD32E53 /* RefundOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefundOptionsView.swift; sourceTree = "<group>"; };
 		7C698C6B07B23488EB087C52 /* ReturnClipKitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnClipKitApp.swift; sourceTree = "<group>"; };
 		800226C34EFDD4EF66928821 /* ConditionAssessment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionAssessment.swift; sourceTree = "<group>"; };
@@ -42,6 +44,7 @@
 		A7180E1E990DD251CDDF1E7A /* ConditionResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionResultView.swift; sourceTree = "<group>"; };
 		B650B78BC8BE2F9B459BC661 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 		BE914D4D89790962BA45911A /* ReturnFlowState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnFlowState.swift; sourceTree = "<group>"; };
+		CDFD4663B554AFFC67D181C3 /* ExchangeProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeProductsView.swift; sourceTree = "<group>"; };
 		D9EAF8F5360D583AD8394920 /* ReturnClipKit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ReturnClipKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED55432E828A950157CF0FDD /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		F29BAA6F470CD3A1EBA80966 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
@@ -59,14 +62,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		18A18609AFF00AAABEF62713 /* MockData */ = {
-			isa = PBXGroup;
-			children = (
-				5FD49899C76A838D323F279E /* MockData.swift */,
-			);
-			path = MockData;
-			sourceTree = "<group>";
-		};
 		321F67076649490EDABFBDC2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -82,10 +77,10 @@
 				7C698C6B07B23488EB087C52 /* ReturnClipKitApp.swift */,
 				BF4CCC6046439B4227C3EF58 /* Config */,
 				88C37C510AB797CB75F5EBC4 /* Experience */,
-				18A18609AFF00AAABEF62713 /* MockData */,
 				09F59E5DA2AA1CC56924750F /* Models */,
 				AA49F5DF6E74AAA4CD68348C /* Screens */,
 				D9FF775694CC54B73A12715F /* Services */,
+				931A81492BD4095FF321B582 /* SupportingFiles */,
 			);
 			path = ReturnClipKit;
 			sourceTree = "<group>";
@@ -98,11 +93,20 @@
 			path = Experience;
 			sourceTree = "<group>";
 		};
+		931A81492BD4095FF321B582 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				29A9F9E47E4B97FD91C4047F /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		AA49F5DF6E74AAA4CD68348C /* Screens */ = {
 			isa = PBXGroup;
 			children = (
 				A7180E1E990DD251CDDF1E7A /* ConditionResultView.swift */,
 				27D740645005AEC937B2F41E /* ConfirmationView.swift */,
+				CDFD4663B554AFFC67D181C3 /* ExchangeProductsView.swift */,
 				5755776B313FD7F0E6969970 /* OrderConfirmationView.swift */,
 				B650B78BC8BE2F9B459BC661 /* PhotoCaptureView.swift */,
 				6E3D61E89C0FE36A9CD32E53 /* RefundOptionsView.swift */,
@@ -122,6 +126,7 @@
 		D9FF775694CC54B73A12715F /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				65CF84F7DF8ABD36AEC2568E /* BackendService.swift */,
 				45AA2E225F585F5EE3D97BE1 /* CloudinaryService.swift */,
 				2F9FDD459FFCFAA8F0559368 /* GeminiService.swift */,
 			);
@@ -164,8 +169,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 855C62B0EB2133FA39FEF6E1 /* Build configuration list for PBXProject "ReturnClipKit" */;
 			developmentRegion = en;
@@ -192,13 +195,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D928A63E4FD1D6F09B9C7D93 /* APIKeys.swift in Sources */,
+				140379E03CB340C911F38216 /* BackendService.swift in Sources */,
 				2DB8D9AE694A97D854910941 /* CloudinaryService.swift in Sources */,
 				4D7F07DD9D82D86014487D52 /* ConditionAssessment.swift in Sources */,
 				3D4C7655B0887C8AA196CDD1 /* ConditionResultView.swift in Sources */,
 				BBCD1F33313AFB222805C525 /* ConfirmationView.swift in Sources */,
 				D1D3650C8CBAA533C89E3CBD /* DesignSystem.swift in Sources */,
+				5EB5EB3B7C8D835C48EE0635 /* ExchangeProductsView.swift in Sources */,
 				97CB2952B937FF6A558E46D3 /* GeminiService.swift in Sources */,
-				2B9766D4A44324F2C44A5B6A /* MockData.swift in Sources */,
 				9CEAF239C80A2F5D47CD664A /* Order.swift in Sources */,
 				510D9F9E20641412A2B3E790 /* OrderConfirmationView.swift in Sources */,
 				80FBABC00EC0FD1E49BB0E92 /* PhotoCaptureView.swift in Sources */,
@@ -221,13 +225,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "ReturnClip needs camera access to photograph items for return verification.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ReturnClip needs photo library access to select item photos for return verification.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ReturnClipKit/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -367,13 +366,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "ReturnClip needs camera access to photograph items for return verification.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ReturnClip needs photo library access to select item photos for return verification.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ReturnClipKit/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

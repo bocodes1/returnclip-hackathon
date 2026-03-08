@@ -18,13 +18,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.returnclip.ReturnClipKit
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
-        GENERATE_INFOPLIST_FILE: true
-        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
-        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
-        INFOPLIST_KEY_UILaunchScreen_Generation: true
-        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
-        INFOPLIST_KEY_NSCameraUsageDescription: "ReturnClip needs camera access to photograph items for return verification."
-        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "ReturnClip needs photo library access to select item photos for return verification."
+        GENERATE_INFOPLIST_FILE: false
+        INFOPLIST_FILE: ReturnClipKit/SupportingFiles/Info.plist
         SWIFT_EMIT_LOC_STRINGS: "YES"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor

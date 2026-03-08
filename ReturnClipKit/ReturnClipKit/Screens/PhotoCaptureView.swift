@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import AVKit
 
 /// Screen 3: Capture photos/video of item condition
 struct PhotoCaptureView: View {
@@ -143,7 +144,7 @@ struct PhotoCaptureView: View {
             .rcShadowCard()
         }
         .sheet(isPresented: $showDemoVideo) {
-            DemoVideoView()
+            DemoVideoView(videoUrl: flowState.policy?.demoVideoUrl)
         }
     }
     
@@ -307,34 +308,60 @@ struct PhotoPreviewCell: View {
 
 struct DemoVideoView: View {
     @Environment(\.dismiss) var dismiss
-    
+    var videoUrl: String?
+
+    // Cloudinary demo video with adaptive quality + format transforms
+    // In production this is set from ReturnPolicy.demoVideoUrl (uploaded by merchant via web dashboard)
+    private var cloudinaryVideoUrl: URL? {
+        let urlString = videoUrl ?? "https://res.cloudinary.com/demo/video/upload/q_auto,f_auto/docs/cld-sample-video.mp4"
+        return URL(string: urlString)
+    }
+
+    @StateObject private var playerHolder = AVPlayerHolder()
+
     var body: some View {
         NavigationView {
-            VStack {
-                // Placeholder for video player
-                ZStack {
-                    RoundedRectangle(cornerRadius: RCRadius.lg)
-                        .fill(Color.black)
+            VStack(spacing: 0) {
+                if let url = cloudinaryVideoUrl {
+                    VideoPlayer(player: playerHolder.player)
                         .aspectRatio(16/9, contentMode: .fit)
-                    
-                    VStack(spacing: RCSpacing.lg) {
-                        ZStack {
-                            Circle()
-                                .fill(Color.white.opacity(0.2))
-                                .frame(width: 80, height: 80)
-                            
-                            Image(systemName: "play.circle.fill")
-                                .font(.system(size: 60))
-                                .foregroundColor(.white)
+                        .cornerRadius(RCRadius.lg)
+                        .padding(.horizontal, RCSpacing.lg)
+                        .padding(.top, RCSpacing.lg)
+                        .onAppear {
+                            playerHolder.load(url: url)
+                            playerHolder.player.play()
                         }
-                        
-                        Text("Demo video would play here")
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.8))
-                    }
+                        .onDisappear {
+                            playerHolder.player.pause()
+                        }
+                } else {
+                    placeholderView
                 }
-                .padding()
-                
+
+                VStack(alignment: .leading, spacing: RCSpacing.md) {
+                    Text("Photo Tips")
+                        .font(.system(size: 17, weight: .semibold, design: .rounded))
+                        .foregroundColor(.rcTextPrimary)
+
+                    GuidelineRow(icon: "sun.max.fill", text: "Use natural light — avoid flash", color: .rcWarning)
+                    GuidelineRow(icon: "arrow.up.left.and.arrow.down.right", text: "Include the entire item in frame", color: .rcPrimary)
+                    GuidelineRow(icon: "magnifyingglass", text: "Close-up on any damage or defects", color: .rcError)
+                    GuidelineRow(icon: "checkmark.circle.fill", text: "All 3 photos needed to continue", color: .rcSuccess)
+                }
+                .rcCard()
+                .padding(.horizontal, RCSpacing.lg)
+                .padding(.top, RCSpacing.lg)
+
+                HStack(spacing: RCSpacing.xs) {
+                    Image(systemName: "cloud.fill")
+                        .font(.system(size: 11))
+                    Text("Video served via Cloudinary CDN")
+                        .font(.system(size: 11))
+                }
+                .foregroundColor(.rcTextMuted)
+                .padding(.top, RCSpacing.md)
+
                 Spacer()
             }
             .background(Color.rcSurface)
@@ -342,13 +369,39 @@ struct DemoVideoView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
-                        dismiss()
-                    }
-                    .foregroundColor(.rcPrimary)
-                    .fontWeight(.semibold)
+                    Button("Done") { dismiss() }
+                        .foregroundColor(.rcPrimary)
+                        .fontWeight(.semibold)
                 }
             }
         }
+    }
+
+    private var placeholderView: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: RCRadius.lg)
+                .fill(Color.black)
+                .aspectRatio(16/9, contentMode: .fit)
+            VStack(spacing: RCSpacing.md) {
+                Image(systemName: "video.slash.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(.white.opacity(0.5))
+                Text("No demo video configured")
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.7))
+            }
+        }
+        .padding(.horizontal, RCSpacing.lg)
+        .padding(.top, RCSpacing.lg)
+    }
+}
+
+/// Holds the AVPlayer instance so it persists across view updates
+final class AVPlayerHolder: ObservableObject {
+    let player = AVPlayer()
+
+    func load(url: URL) {
+        let item = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: item)
     }
 }

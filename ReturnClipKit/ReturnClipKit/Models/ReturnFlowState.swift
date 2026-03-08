@@ -25,7 +25,17 @@ class ReturnFlowState: ObservableObject {
     
     // Selection
     @Published var selectedRefundOption: RefundOption?
-    
+
+    // Exchange — populated when user picks "Exchange Item" and browses products
+    @Published var selectedExchangeProduct: ShopifyProduct?
+    @Published var selectedExchangeVariant: ShopifyVariant?
+
+    // Confirmation result — set by ReturnClipExperience after backend call succeeds
+    @Published var confirmationResult: ConfirmationResult?
+
+    // Backend case tracking — caseId is created during analyzePhotos and reused in confirmReturn
+    @Published var currentCaseId: String?
+
     // UI State
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
@@ -42,6 +52,9 @@ class ReturnFlowState: ObservableObject {
         case .conditionResult:
             return conditionAssessment != nil
         case .refundOptions:
+            if selectedRefundOption?.type == .exchange {
+                return selectedExchangeProduct != nil && selectedExchangeVariant != nil
+            }
             return selectedRefundOption != nil
         case .confirmation:
             return true
@@ -72,9 +85,35 @@ class ReturnFlowState: ObservableObject {
         conditionAssessment = nil
         refundDecision = nil
         selectedRefundOption = nil
+        selectedExchangeProduct = nil
+        selectedExchangeVariant = nil
+        confirmationResult = nil
+        currentCaseId = nil
         isLoading = false
         errorMessage = nil
     }
+}
+
+// MARK: - Confirmation Result
+
+enum ConfirmationResult {
+    /// Standard refund or partial refund back to original payment method.
+    case refund(amount: Decimal)
+
+    /// Exchange order placed — new item shipping, price difference settled.
+    case exchange(
+        productTitle: String,
+        variantTitle: String,
+        exchangePrice: Double,
+        returnAmount: Double,
+        difference: Double,
+        differenceType: String,   // "refund" → user gets money back; "charge" → user pays more
+        exchangeOrderId: String,
+        estimatedDelivery: String
+    )
+
+    /// Store credit saved to account.
+    case storeCredit(amount: Decimal, creditId: String)
 }
 
 enum ReturnStep: Int, CaseIterable {
