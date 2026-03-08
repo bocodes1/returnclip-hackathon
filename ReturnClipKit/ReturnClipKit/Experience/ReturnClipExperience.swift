@@ -281,6 +281,12 @@ struct ReturnClipExperience: View {
                 // 5. Get refund decision from backend
                 let decision = try await BackendService.shared.getRefundDecision(caseId: caseId)
 
+                // 6. [NEW] Run ML model assessment in parallel for testing/comparison
+                // This is non-blocking — we don't wait for it
+                Task {
+                    await evaluateWithMLModel()
+                }
+
                 await MainActor.run {
                     flowState.currentCaseId = caseId
                     flowState.conditionAssessment = assessment
@@ -295,6 +301,26 @@ struct ReturnClipExperience: View {
                     flowState.errorMessage = error.localizedDescription
                     showError = true
                 }
+            }
+        }
+    }
+
+    /// Run ML model evaluation on captured photos (for testing/comparison).
+    /// This runs in the background and populates flowState.modelAssessment.
+    private func evaluateWithMLModel() async {
+        do {
+            // Classify the first photo (or all of them for detailed comparison)
+            guard !flowState.capturedPhotos.isEmpty else { return }
+
+            let firstPhoto = flowState.capturedPhotos[0]
+            let modelAssessment = try await ModelEvaluationService.shared.classifyImage(firstPhoto)
+
+            await MainActor.run {
+                flowState.modelAssessment = modelAssessment.sofaConditionAssessment
+            }
+        } catch {
+            await MainActor.run {
+                flowState.modelEvaluationError = error.localizedDescription
             }
         }
     }

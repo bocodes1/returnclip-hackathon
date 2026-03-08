@@ -22,6 +22,10 @@ class ReturnFlowState: ObservableObject {
     // AI Analysis
     @Published var conditionAssessment: ConditionAssessment?
     @Published var refundDecision: RefundDecision?
+
+    // ML Model Assessment (for testing/comparison)
+    @Published var modelAssessment: SofaConditionAssessment?
+    @Published var modelEvaluationError: String?
     
     // Selection
     @Published var selectedRefundOption: RefundOption?
@@ -89,6 +93,8 @@ class ReturnFlowState: ObservableObject {
         selectedExchangeVariant = nil
         confirmationResult = nil
         currentCaseId = nil
+        modelAssessment = nil
+        modelEvaluationError = nil
         isLoading = false
         errorMessage = nil
     }

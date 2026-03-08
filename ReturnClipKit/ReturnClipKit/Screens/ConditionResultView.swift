@@ -27,6 +27,15 @@ struct ConditionResultView: View {
                         policyCheckResult(decision)
                             .slideIn(delay: 0.6)
                     }
+
+                    // ML Model assessment (for comparison/testing)
+                    if let modelAssessment = flowState.modelAssessment {
+                        modelComparisonSection(modelAssessment)
+                            .slideIn(delay: 0.7)
+                    } else if flowState.modelEvaluationError != nil {
+                        modelErrorSection
+                            .slideIn(delay: 0.7)
+                    }
                 } else {
                     analyzingView
                 }
@@ -342,5 +351,149 @@ struct ConditionResultView: View {
         case .storeCreditOnly: return "Credit"
         case .denied: return "Denied"
         }
+    }
+
+    // MARK: - ML Model Comparison Section
+
+    private func modelComparisonSection(_ modelAssessment: SofaConditionAssessment) -> some View {
+        VStack(alignment: .leading, spacing: RCSpacing.md) {
+            HStack(spacing: RCSpacing.sm) {
+                ZStack {
+                    Circle()
+                        .fill(Color.rcPrimaryLight.opacity(0.12))
+                        .frame(width: 30, height: 30)
+
+                    Image(systemName: "sparkles")
+                        .foregroundColor(.rcPrimaryLight)
+                        .font(.system(size: 13))
+                }
+
+                Text("ML Model Assessment")
+                    .font(.system(size: 17, weight: .semibold, design: .rounded))
+                    .foregroundColor(.rcTextPrimary)
+
+                Spacer()
+
+                // Confidence badge
+                HStack(spacing: RCSpacing.xs) {
+                    Image(systemName: "cpu")
+                        .font(.system(size: 11))
+                    Text("\(Int(modelAssessment.confidence * 100))%")
+                        .font(.system(size: 12, weight: .medium))
+                }
+                .foregroundColor(.rcTextMuted)
+                .padding(.horizontal, RCSpacing.sm)
+                .padding(.vertical, RCSpacing.xs)
+                .background(Color.rcSurfaceMuted)
+                .cornerRadius(RCRadius.full)
+            }
+
+            // Condition class
+            HStack(spacing: RCSpacing.md) {
+                VStack(alignment: .leading, spacing: RCSpacing.xs) {
+                    Text("Condition")
+                        .font(.system(size: 12))
+                        .foregroundColor(.rcTextMuted)
+                    Text(modelAssessment.conditionClass)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(.rcTextPrimary)
+                }
+                Spacer()
+                VStack(alignment: .trailing, spacing: RCSpacing.xs) {
+                    Text("Refund")
+                        .font(.system(size: 12))
+                        .foregroundColor(.rcTextMuted)
+                    Text("\(modelAssessment.refundPercent)%")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(scoreColor(modelAssessment.refundPercent))
+                }
+            }
+            .padding(RCSpacing.md)
+            .background(Color.rcSurfaceMuted)
+            .cornerRadius(RCRadius.md)
+
+            // Detected damages
+            if !modelAssessment.damageAnalysis.damageTypesDetected.isEmpty {
+                VStack(alignment: .leading, spacing: RCSpacing.sm) {
+                    Text("Detected Issues")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.rcTextSecondary)
+
+                    ForEach(modelAssessment.damageAnalysis.damageTypesDetected, id: \.self) { damage in
+                        HStack(spacing: RCSpacing.sm) {
+                            Image(systemName: "exclamationmark.circle.fill")
+                                .font(.system(size: 11))
+                                .foregroundColor(.rcWarning)
+                            Text(damage.replacingOccurrences(of: "_", with: " ").capitalized)
+                                .font(.system(size: 13))
+                                .foregroundColor(.rcTextSecondary)
+                            Spacer()
+                        }
+                    }
+                }
+            }
+
+            // Assessment reason
+            if !modelAssessment.returnEligibility.reason.isEmpty {
+                Text(modelAssessment.returnEligibility.reason)
+                    .font(.system(size: 13))
+                    .foregroundColor(.rcTextSecondary)
+                    .lineSpacing(2)
+            }
+        }
+        .padding(RCSpacing.lg)
+        .background(Color.rcPrimaryLight.opacity(0.05))
+        .cornerRadius(RCRadius.lg)
+        .overlay(
+            RoundedRectangle(cornerRadius: RCRadius.lg)
+                .stroke(Color.rcPrimaryLight.opacity(0.15), lineWidth: 1)
+        )
+    }
+
+    private var modelErrorSection: some View {
+        VStack(alignment: .leading, spacing: RCSpacing.md) {
+            HStack(spacing: RCSpacing.sm) {
+                ZStack {
+                    Circle()
+                        .fill(Color.rcTextMuted.opacity(0.12))
+                        .frame(width: 30, height: 30)
+
+                    Image(systemName: "info.circle.fill")
+                        .foregroundColor(.rcTextMuted)
+                        .font(.system(size: 13))
+                }
+
+                Text("ML Model")
+                    .font(.system(size: 17, weight: .semibold, design: .rounded))
+                    .foregroundColor(.rcTextPrimary)
+
+                Spacer()
+
+                Text("Unavailable")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(.rcTextMuted)
+                    .padding(.horizontal, RCSpacing.sm)
+                    .padding(.vertical, RCSpacing.xs)
+                    .background(Color.rcSurfaceMuted)
+                    .cornerRadius(RCRadius.full)
+            }
+
+            Text(flowState.modelEvaluationError ?? "Model service is not available. The primary assessment above is from Gemini Vision.")
+                .font(.system(size: 13))
+                .foregroundColor(.rcTextSecondary)
+                .lineSpacing(2)
+
+            Text("Ensure hackcanada-model Flask app is running on http://localhost:5000")
+                .font(.system(size: 11))
+                .foregroundColor(.rcTextMuted)
+                .italic()
+        }
+        .padding(RCSpacing.lg)
+        .background(Color.rcSurfaceMuted.opacity(0.5))
+        .cornerRadius(RCRadius.lg)
+        .overlay(
+            RoundedRectangle(cornerRadius: RCRadius.lg)
+                .stroke(Color.rcBorder.opacity(0.3), lineWidth: 1)
+        )
     }
 }
